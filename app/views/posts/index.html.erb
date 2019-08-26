@@ -1,0 +1,87 @@
+<div class="card feed mt-3">
+  <h5 class="card-header ">Create Posts</h5>
+  <%= form_with(model: @post, local: true, html: { multipart: true }) do |form| %>
+    <% if @post.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+        <ul>
+          <% @post.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>  
+
+    <div class="posts ml-2">
+      <div class="field">
+        <%= form.text_field :description ,  class: "feed-form" , placeholder: "What's on your mind?" %>
+      </div><hr>
+      <div class="field ">
+        <%= form.file_field :image , placeholder: "Photo", class: "image-field rounded-pill" %>
+        <span class=" ml-3 rounded-pill bg-light">. . .</span>
+        <br>
+      </div>
+      <div class="actions">
+        <%= form.submit  class: "nav-link btn-block  rounded-pill  text-light text-center feed-submit"%>    
+      </div>
+  <% end %>
+  </div>
+</div>
+<table>
+  <thead>
+    <tr>      
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @posts.each do |post| %>
+      <tr class="card feed col-12 mb-2">
+        <td >        
+          <% @user.each do |user|  %>
+            <% if post.user_id == user.id %>
+              <%=image_tag("https://img.icons8.com/ultraviolet/35/000000/gender-neutral-user.png" , class: " mt-2 prof rounded-circle")  %>            
+                <span><%= user.first_name %> <%= user.last_name %>,
+                  <span class="">
+                    <% if post.image_updated_at.nil?%>
+                      <%= post.updated_at%>
+                    <% else %>
+                      <%= post.image_updated_at%>
+                    <% end %>
+                  </span> 
+                </span><br>
+                <% if user.first_name == current_user.first_name %>
+                  <div class="dropdown ml-2 mt-1">
+                    <span class=" rounded-pill bg-light controls dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</span>                
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">                 
+                      <%= link_to 'Show', post ,class: "dropdown-item"%>
+                      <%= link_to 'Edit', edit_post_path(post) ,class: "dropdown-item" %>
+                      <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } ,class: "dropdown-item" %>
+                    </div>
+                  </div>   
+                <% else%>
+                  <div class="dropdown ml-2 mt-1">
+                    <span class=" rounded-pill bg-light controls dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</span>                
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">                 
+                      <%= link_to 'Show', post ,class: "dropdown-item"%>
+                    </div>
+                  </div>   
+                <% end %>                                 
+              <% end %>
+            <% end %><br>       
+            <%= post.description %>
+          <%- if post.image.exists? %><br>
+            <%= image_tag post.image.url(), class: "feed-pic" %>
+          <% else%>
+          <% end %>        
+        </td>        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<%= link_to 'New Post', new_post_path , class: "nav-link  rounded-pill  text-light text-center" %>
+
+
+
+
+

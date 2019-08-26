@@ -1,0 +1,62 @@
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this @user from being saved:</h2>
+    <ul>
+    <% @user.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+<div class="title mb-3">
+  <h1 >Sign up</h1>
+  <span>Its's quick and easy.</span>
+</div>
+<%= form_with(model: @user, local: true) do |f| %>
+  <div class="row">
+    <div class="col-4">
+    <%= f.text_field :first_name ,placeholder: "First Name", class: "form-control" %>
+  </div>
+  <div class="col-4 ml-1">
+    <%= f.text_field :last_name ,placeholder: "Last Name",  class: "form-control"%>
+  </div>
+  </div>
+  <div class="form-group mt-3 ">
+    <%= f.email_field :email_or_phone ,placeholder: "Email", class: "form-control f1" %>
+  </div>
+
+ <div class="form-group ">
+    <%= f.password_field :password ,placeholder: "New Password", class: "form-control f2" %>
+ </div>
+
+ <div class="form-group ">
+    <%= f.password_field :password_confirmation ,placeholder: "Confirm Password", class: "form-control f3" %>
+ </div>
+  <div class="row ">    
+    <div class="field col-6">
+        <%= f.label :Birthday, class:"float-left"%><br />
+        <%= f.date_select :date ,class: "form-control float-left" %>
+    </div>
+    <br>
+  </div>
+  <div class="field ">
+    <%= f.label :Gender ,class: "float-left"%><br />
+    <div class="float-left">
+      <%= f.label :gender, "Female", :value => "female"%>
+      <%= f.radio_button :gender, "female" %>
+      <%= f.label :gender, "Male", :value => "male" %>
+      <%= f.radio_button :gender, "male" %>
+      <%= f.label :gender, "Other", :value => "other" %>
+      <%= f.radio_button :gender,  "other", :checked => true%>
+    </div>
+    <br>
+  </div>
+  <p class=" col-8">
+    By clicking Sign Up, you agree to our <span class="terms">Terms,Data Policy</span> and <span class="terms">Cookies Policy.</span>
+    You may receive SMS Notifications from us and can opt out any time.
+  </p><br>   
+  <%= f.submit "Sign Up" ,class:"sign-up-btn btn btn-success float-left"%>
+<% end %>
+
+
+    

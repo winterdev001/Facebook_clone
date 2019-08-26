@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>FacebookClone</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" %>
+    <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"  %>
+    <%= javascript_include_tag "https://code.jquery.com/jquery-3.3.1.slim.min.js"  %>
+    <%= javascript_include_tag "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"  %>
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <%- if logged_in?%>     
+      <nav class="navbar navbar-expand-lg navbar-light home-nav static-top fixed-top ">
+        <div class="container">       
+          <form class="form-inline my-4 ml-0 my-lg-0">
+            <span class="rounded-square mr-1 img"><%=image_tag("facebook.png" , class: " rounded-square avatar")  %></span>
+            <input class="form-control rounded-square mr-3 search" type="search" placeholder="Search ..." aria-label="Search">
+          </form>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse " id="navbarResponsive">
+            <ul class="navbar-nav ml-auto ">             
+              <li class="nav-item">
+                <span class="rounded-circle  img text-light"><%=image_tag("https://img.icons8.com/ultraviolet/30/000000/gender-neutral-user.png" , class: " rounded-circle ")  %> 
+                  <%= current_user.first_name %>
+                </span>            
+              </li>              
+
+              <li class="nav-item mt-1 bd">
+                <%= link_to "Home",posts_url,class: "text-light text-decoration-none  ml-2" %>
+              </li>
+              <li class="nav-item mt-1 bd">
+                <%= link_to "Create",posts_url,class: "text-light text-decoration-none ml-2" %>
+              </li>
+              <div class="dropdown ml-2 mt-1">
+                <span class=" dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">            
+                </span>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">                
+                  <% if logged_in? %>
+                    <%= link_to "Profile", user_path(current_user.id),class: "dropdown-item" %>
+                    <%= link_to "Logout", session_path(current_user.id), method: :delete ,class: "dropdown-item"%>
+                  <% else %>
+                    <%= link_to "Sign up", new_user_path ,class: "dropdown-item" %>
+                    <%= link_to "Login", new_session_path ,class: "dropdown-item"%>
+                  <% end %>
+                </div>
+              </div>            
+            </ul>
+          </div>
+        </div>
+      </nav>  
+    <% else %>
+    <% end %>  
+    <!-- Page Content -->
+    <%- if logged_in?%>
+      <div class="container-fluid mt-0 ml-5 ">
+      <div class="row content "> 
+        <nav class="nav flex-column side-nav position-fixed ">
+          <a class="nav-link active" href="#">          
+            <span>
+              <%=image_tag("https://img.icons8.com/ultraviolet/30/000000/gender-neutral-user.png" , class: "  prof rounded-circle")  %> 
+              <%= current_user.first_name %> <%= current_user.last_name%> 
+            </span>             
+          </a>
+          <a class="nav-link" href="#"><img src="https://img.icons8.com/color/30/000000/google-news.png"> News Feed</a>
+          <a class="nav-link" href="#"><img src="https://img.icons8.com/color/30/000000/facebook-messenger.png"> Messenger</a>
+          <a class="nav-link" href="#"><img src="https://img.icons8.com/color/30/000000/google-news.png"> Watch </a>
+          <a class="nav-link" href="#">Shortcuts</a>
+          <a class="nav-link" href="#"><img src="https://img.icons8.com/ios-glyphs/30/000000/group.png"> Relationship</a>
+          <a class="nav-link" href="#">Explore</a>
+          <a class="nav-link" href="#"><img src="https://img.icons8.com/ultraviolet/30/000000/groups.png"> Groups</a>
+          <a class="nav-link" href="#"><img src="https://img.icons8.com/doodle/30/000000/filled-flag.png"> Pages</a>
+          <a class="nav-link" href="#"><img src="https://img.icons8.com/plasticine/30/000000/coins.png"> Fundraisers</a>
+          <a class="nav-link" href="#"><img src="https://img.icons8.com/color/30/000000/calendar.png"> Events</a>
+          <a class="nav-link" href="#"><img src="https://img.icons8.com/ultraviolet/30/000000/change-user-male.png"> Friend Lists</a>
+        </nav> 
+        <% else %>
+      <% end %> 
+      
+        <% if logged_in?%>
+          <div class="col-6 mt-1 middle-card ">
+          <% if flash[:notice] %>
+            <div class="bg-success card col-10 mt-2 "   >
+              <p class="notice"><%= notice %></p>
+            </div>
+          <% end %>
+          <% if flash[:alert] %>
+            <div class="bg-danger card col-12 mt-2 " >
+              <p class="alert"><%= alert %></p>
+            </div>
+          <% end %>
+        <% else %>
+        <% end %>
+        <div class=" post  ">      
+          <%= yield %>
+          <div class="card ml-4 ">            
+          </div>
+        </div>
+      </div>
+
+      <% if logged_in?%>
+        <div class=" position-fixed right-card  col-3 ">
+          <div class="card mt-3" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Suggested Groups</h5>
+              <div class="card suggested-grp" style="width: 15rem;"> 
+                <%=image_tag("Mr.P.png" , class: " card-img-top groups")  %>
+                <div class="card-body">
+                  <p class="card-text ">
+                    <h3>Meet & Greets</h3>
+                    <span>10 Friends - 10,000 members</span>
+                    <button class="btn btn-light">+ Join Group</button>
+                  </p>
+                </div>       
+              </div>
+            </div>
+            <footer >
+              <p class="col-12">
+                <ul class="items">
+                  <li class="list">Terms</li>
+                  <li class="list">Privacy policy</li>            
+                  <li class="list">Ads info</li>
+                  <li class="list">More</li>
+                </ul>
+              </p>
+              <span class="year">© 2019 Facebook, Inc.</span>
+            </footer>          
+          </div >
+          <div class="online mt-2 col-12 ">
+            <ul class="friends">
+              <li class="nav-item nav-link">
+                <span class="rounded-circle  img text-dark"><%=image_tag("https://img.icons8.com/ultraviolet/30/000000/gender-neutral-user.png" , class: " rounded-circle ")  %> Meek Mill </span><span class="badge badge-pill badge-success">.</span>            
+              </li> 
+              <li class="nav-item nav-link">
+                <span class="rounded-circle  img text-dark"><%=image_tag("https://img.icons8.com/ultraviolet/30/000000/gender-neutral-user.png" , class: " rounded-circle ")  %> John Doe </span><span class="badge badge-pill badge-success">.</span>           
+              </li>
+              <li class="nav-item nav-link">
+                <span class="rounded-circle  img text-dark"><%=image_tag("https://img.icons8.com/ultraviolet/30/000000/gender-neutral-user.png" , class: " rounded-circle ")  %> Jane Doe </span><span class="badge badge-pill badge-success">.</span>            
+              </li>
+              <li class="nav-item nav-link">
+                <span class="rounded-circle  img text-dark"><%=image_tag("https://img.icons8.com/ultraviolet/30/000000/gender-neutral-user.png" , class: " rounded-circle ")  %> Tony Jay </span><span class="badge badge-pill badge-success">.</span>           
+              </li>
+              <li class="nav-item nav-link">
+                <span class="rounded-circle  img text-dark"><%=image_tag("https://img.icons8.com/ultraviolet/30/000000/gender-neutral-user.png" , class: " rounded-circle ")  %> Jake Joe </span><span class="badge badge-pill badge-success">.</span>           
+              </li>            
+            </ul>
+          </div>
+        </div>
+      </div>
+    <% else %>
+    <% end %>
+  </body>
+</html>
+       
+    
+       
+        
+      
+          
+           

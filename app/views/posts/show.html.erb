@@ -1,0 +1,10 @@
+<div class="card col-9 mt-3">
+  <p class="card-body">
+    <%= @post.description %><br>  
+    <% if @post.image.exists?%> 
+      <%= image_tag(@post.image.url(:medium)) %>    
+    <% else %>
+    <% end %>      
+  </p>  
+  <%= link_to 'Back', posts_path , class: "btn btn-light"%>  
+</div>
