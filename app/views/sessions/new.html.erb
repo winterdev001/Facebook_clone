@@ -10,10 +10,8 @@
           <%= form_with(scope: :session, url: sessions_path, local: true) do |f| %>
             <%= f.label :Email %>
             <%= f.email_field :email_or_phone %>
-
             <%= f.label :Password %>
             <%= f.password_field :password %>
-
             <%= f.submit "Log in" ,class: "btn login-btn text-light text-center ml-2 pb-2" %>
           <% end %>
         </li>           

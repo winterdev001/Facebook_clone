@@ -4,7 +4,6 @@
     <title>FacebookClone</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_link_tag "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" %>
@@ -12,7 +11,6 @@
     <%= javascript_include_tag "https://code.jquery.com/jquery-3.3.1.slim.min.js"  %>
     <%= javascript_include_tag "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"  %>
   </head>
-
   <body>
     <!-- Navigation -->
     <%- if logged_in?%>     
@@ -32,8 +30,7 @@
                 <span class="rounded-circle  img text-light"><%=image_tag("https://img.icons8.com/ultraviolet/30/000000/gender-neutral-user.png" , class: " rounded-circle ")  %> 
                   <%= current_user.first_name %>
                 </span>            
-              </li>              
-
+              </li>
               <li class="nav-item mt-1 bd">
                 <%= link_to "Home",posts_url,class: "text-light text-decoration-none  ml-2" %>
               </li>
@@ -83,8 +80,7 @@
           <a class="nav-link" href="#"><img src="https://img.icons8.com/ultraviolet/30/000000/change-user-male.png"> Friend Lists</a>
         </nav> 
         <% else %>
-      <% end %> 
-      
+      <% end %>       
         <% if logged_in?%>
           <div class="col-6 mt-1 middle-card ">
           <% if flash[:notice] %>
@@ -105,7 +101,6 @@
           </div>
         </div>
       </div>
-
       <% if logged_in?%>
         <div class=" position-fixed right-card  col-3 ">
           <div class="card mt-3" style="width: 18rem;">
